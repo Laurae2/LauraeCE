@@ -11,6 +11,8 @@ devtools::install_github("Laurae2/LauraeCE")
 Original source: https://cran.r-project.org/web/packages/CEoptim/index.html
 
 TO-DO:
-* add parallelism.
-* add hot loading (use previous optimization)
-* add interrupt on the fly while saving data
+- [x] add parallelism
+- [ ] allow progress bar backend parameter
+- [ ] add sink results to file parameter
+- [ ] add hot loading (use previous optimization)
+- [ ] add interrupt on the fly while saving data (tcltk?)

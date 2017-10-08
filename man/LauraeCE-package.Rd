@@ -1,5 +1,5 @@
-\name{CEoptim-package}
-\alias{CEoptim-package}
+\name{LauraeCE-package}
+\alias{LauraeCE-package}
 \docType{package}
 \title{
 Cross-Entropy R package for optimization
@@ -13,15 +13,15 @@ Cross-Entropy R package for optimization
 }
 \details{
 \tabular{ll}{
-Package: \tab CEoptim\cr
+Package: \tab LauraeCE\cr
 Type: \tab Package\cr
-Version: \tab 1.0\cr
-Date: \tab 2015-02-28\cr
+Version: \tab 2.0\cr
+Date: \tab 2017-08-10\cr
 License: \tab GPL (>=2.0)\cr
 LazyLoad: \tab yes\cr
 }
 }
-\author{Tim Benham, Qibin Duan, Dirk P. Kroese, Benoit Liquet <b.liquet@uq.edu.au>}
+\author{Laurae, Tim Benham, Qibin Duan, Dirk P. Kroese, Benoit Liquet <b.liquet@uq.edu.au>}
 \references{
   Benham T.,  Duan Q., Kroese D.P., Liquet B. (2017) \bold{CEoptim}:
 Cross-Entropy \R package for optimization. \emph{Journal of Statistical

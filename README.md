@@ -11,3 +11,5 @@ devtools::install_github("Laurae2/Laurae_CE")
 Original source: https://cran.r-project.org/web/packages/CEoptim/index.html
 
 TO-DO: add parallelism.
+TO-DO: add hot loading (use previous optimization)
+TO-DO: add interrupt on the fly while saving data

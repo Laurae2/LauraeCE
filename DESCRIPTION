@@ -1,10 +1,9 @@
-Package: Laurae_CE
+Package: LauraeCE
 Type: Package
 Title: Laurae's Cross-Entropy Optimization
 Version: 2.0
 Date: 2017-08-10
-Author: Laurae, Tim Benham and Qibin Duan and Dirk P. Kroese and Benoit Liquet
-Maintainer: Laurae
+Authors@R: person("First", "Last", email = "first.last@example.com", role = c("aut", "cre"))
 Depends: MASS, msm, stats, sna
 Description: Optimization solver based on the Cross-Entropy method.
 License: GPL (>= 2.0)

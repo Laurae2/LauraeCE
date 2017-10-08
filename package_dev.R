@@ -6,10 +6,10 @@ library(roxygen2) # devtools::install_github("klutometis/roxygen")
 setwd("D:/Data Science/Laurae_CE")
 
 # Generate documentation
-document()
+# document()
 
 # Check for errors
-devtools::check()
+devtools::check(document = FALSE)
 
 # Install package
 install("./")

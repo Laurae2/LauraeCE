@@ -1,9 +1,10 @@
 \name{CEoptim}
 \alias{CEoptim}
-\title{Cross-Entropy optimizer}
+\title{Parallelized Cross-Entropy optimizer}
 \usage{
 	CEoptim(f, f.arg=NULL, maximize=FALSE, continuous=NULL, discrete=NULL,
-	    N=100L, rho=0.1, iterThr=1e4L, noImproveThr=5, verbose=FALSE)}
+	    N=100L, rho=0.1, iterThr=1e4L, noImproveThr=5, verbose=FALSE,
+		parallelize=FALSE, cl=NULL)}
 
 
 \arguments{
@@ -54,7 +55,11 @@ number of iterations during which no improvement of the best function
 value is found.}
 
 \item{verbose}{Logical value set for CE progress
-output.}}
+output.}
+
+\item{parallelize}{Parallelization through parallel package.}
+
+\item{cl}{Parallelization cluster.}}
 
 \value{\code{CEoptim} returns an object of class "CEoptim" which is a list with the following components.
 	\itemize{

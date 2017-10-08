@@ -7,7 +7,9 @@ CEoptim <- function(f,
                     rho = 0.1,
                     iterThr = 1e4L,
                     noImproveThr = 5,
-                    verbose = FALSE) {
+                    verbose = FALSE,
+                    parallelize = FALSE,
+                    cl = NULL) {
   
   ### Parse and check arguments.
   ## f should be a function
@@ -224,11 +226,14 @@ CEoptim <- function(f,
   ## continuous optimization variables, one for the discrete.
   s = (-1) ^ maximize
   if (p == 0L) {
-    ff <- function(XC, XD) {s * do.call(f, c(list(XD), f.arg))}
+    caller <- function(XC, XD) {c(list(XD), f.arg)}
+    ff <- function(x) {s * do.call(f, x)}
   } else if (q == 0L) {
-    ff <- function(XC, XD) {s * do.call(f, c(list(XC), f.arg))}
+    caller <- function(XC, XD) {c(list(XC), f.arg)}
+    ff <- function(x) {s * do.call(f, x)}
   } else {
-    ff <- function(XC, XD) {s * do.call(f, c(list(XC, XD), f.arg))}
+    caller <- function(XC, XD) {c(list(XC, XD), f.arg)}
+    ff <- function(x) {s * do.call(f, x)}
   }
   
   ## Generate an initial sample.
@@ -250,7 +255,12 @@ CEoptim <- function(f,
   
   ## Evaluate objective function over initial sample
   # TO PARALLELIZE
-  Y <- mapply(ff, lapply(1:N, function(j) {Xc[j, ,drop = FALSE]}), lapply(1:N, function(k) {Xd[k, ,drop=F]}))
+  Y <- mapply(caller, lapply(1:N, function(j) {Xc[j, ,drop = FALSE]}), lapply(1:N, function(k) {Xd[k, , drop = FALSE]}), SIMPLIFY = FALSE)
+  if (parallelize == FALSE) {
+    Y <- sapply(Y, ff)
+  } else {
+    Y <- pbapply::pbsapply(Y, ff)
+  }
   
   ## Identify elite.
   IX <- sort(Y, index.return = TRUE, decreasing = FALSE)$ix
@@ -311,7 +321,7 @@ CEoptim <- function(f,
       probst[[iter + 1]] <- get(namet)
     }
     
-    CEstates<- rbind(CEstates, CEt)
+    CEstates <- rbind(CEstates, CEt)
     
     if (verbose) {
       cat("iter:", iter, " opt:", optimum * s)
@@ -345,7 +355,12 @@ CEoptim <- function(f,
     }
     
     # TO PARALLELIZE
-    Y <- mapply(ff, lapply(1:N, function(j) {Xc[j, , drop = FALSE]}), lapply(1:N, function(k) {Xd[k, , drop = FALSE]}))
+    Y <- mapply(caller, lapply(1:N, function(j) {Xc[j, ,drop = FALSE]}), lapply(1:N, function(k) {Xd[k, , drop = FALSE]}), SIMPLIFY = FALSE)
+    if (parallelize == FALSE) {
+      Y <- sapply(Y, ff)
+    } else {
+      Y <- pbapply::pbsapply(Y, ff)
+    }
     
     ## Identify elite.
     IX <- sort(Y, index.return = TRUE, decreasing = FALSE)$ix

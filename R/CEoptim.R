@@ -23,13 +23,13 @@ CEoptim <- function(f,
   ## variables.
   
   ## The continuous sampling parameters and their defaults.
-  ctsDefaults<- list(mean = NULL,
-                     sd = NULL,
-                     conMat = NULL,
-                     conVec = NULL,
-                     smoothMean = 1,
-                     smoothSd = 1,
-                     sdThr = 0.001)
+  ctsDefaults <- list(mean = NULL,
+                      sd = NULL,
+                      conMat = NULL,
+                      conVec = NULL,
+                      smoothMean = 1,
+                      smoothSd = 1,
+                      sdThr = 0.001)
   
   # Continuous variable checking
   if (!is.null(continuous)) {

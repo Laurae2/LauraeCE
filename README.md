@@ -17,14 +17,14 @@ Original source: https://cran.r-project.org/web/packages/CEoptim/index.html
 
 TO-DO:
 - [x] add parallelism
-- ~~[ ] allow progress bar backend parameter~~
-- [ ] add sink results to file parameter
+- [x] add load balancing
 - [ ] add hot loading (use previous optimization)
 - [ ] add interrupt on the fly while saving data (tcltk?)
+- [ ] add maximum computation time before cancelling (while returning cleanly)
 
 # Example
 
-This is how it currently looks:
+This is how it currently looks and you will notice it is absurdly SLOW on very small tasks:
 
 ```r
 > library(LauraeCE)
@@ -49,9 +49,7 @@ copyright (c) 2005, Carter T. Butts, University of California-Irvine
  For citation information, type citation("sna").
  Type help(package="sna") to get started.
 
-Loading required package: pbapply
-Warning message:
-package ‘pbapply’ was built under R version 3.4.1 
+Loading required package: LauraeParallel
 > library(parallel)
 > 
 > 
@@ -64,23 +62,21 @@ package ‘pbapply’ was built under R version 3.4.1
 > mu0 <- c(-3, -3)
 > sigma0 <- c(10, 10)
 > 
-> set.seed(11111)
-> res1 <- CEoptim::CEoptim(fun, continuous = list(mean = mu0, sd = sigma0), maximize = TRUE)
+> system.time({set.seed(11111)
++ res1 <- CEoptim::CEoptim(fun, continuous = list(mean = mu0, sd = sigma0), maximize = TRUE)})
+   user  system elapsed 
+   0.12    0.00    0.13 
 > 
-> set.seed(11111)
-> res2 <- CEoptim(fun, continuous = list(mean = mu0, sd = sigma0), maximize = TRUE)
+> system.time({set.seed(11111)
++ res2 <- CEoptim(fun, continuous = list(mean = mu0, sd = sigma0), maximize = TRUE)})
+   user  system elapsed 
+   0.12    0.00    0.14 
 > 
 > cl <- makeCluster(2)
-> set.seed(11111)
-> res3 <- CEoptim(fun, continuous = list(mean = mu0, sd = sigma0), maximize = TRUE, parallelize = TRUE, cl = cl)
-   |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed = 00s
-   |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed = 00s
-   |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed = 00s
-   |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed = 00s
-   |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed = 00s
-   |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed = 00s
-   |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed = 00s
-   |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed = 00s
+> system.time({set.seed(11111)
++ res3 <- CEoptim(fun, continuous = list(mean = mu0, sd = sigma0), maximize = TRUE, parallelize = TRUE, cl = cl)})
+   user  system elapsed 
+   0.39    0.01    1.72 
 > stopCluster(cl)
 > closeAllConnections()
 > 
@@ -105,8 +101,8 @@ package ‘pbapply’ was built under R version 3.4.1
 + }
 > p0[[1]] <- c(0, 1)
 > 
-> set.seed(11111)
-> res1 <- CEoptim::CEoptim(fmaxcut, f.arg = list(costs = lesmis), maximize = T, verbose = TRUE, discrete = list(probs = p0), N = 3000L)
+> system.time({set.seed(11111)
++ res1 <- CEoptim::CEoptim(fmaxcut, f.arg = list(costs = lesmis), maximize = T, verbose = TRUE, discrete = list(probs = p0), N = 3000L)})
 Number of continuous variables: 0  
 Number of discrete variables: 77 
 conMat= 
@@ -138,9 +134,11 @@ iter: 19  opt: 533 maxProbs: 0.5
 iter: 20  opt: 533 maxProbs: 0.4366667
 iter: 21  opt: 533 maxProbs: 0.3766667
 iter: 22  opt: 533 maxProbs: 0.3633333
+   user  system elapsed 
+   3.31    0.00    3.41 
 > 
-> set.seed(11111)
-> res2 <- CEoptim(fmaxcut, f.arg = list(costs = lesmis), maximize = T, verbose = TRUE, discrete = list(probs = p0), N = 3000L)
+> system.time({set.seed(11111)
++ res2 <- CEoptim(fmaxcut, f.arg = list(costs = lesmis), maximize = T, verbose = TRUE, discrete = list(probs = p0), N = 3000L)})
 Number of continuous variables: 0  
 Number of discrete variables: 77 
 conMat= 
@@ -172,10 +170,12 @@ iter: 19  opt: 533 maxProbs: 0.5
 iter: 20  opt: 533 maxProbs: 0.4366667
 iter: 21  opt: 533 maxProbs: 0.3766667
 iter: 22  opt: 533 maxProbs: 0.3633333
+   user  system elapsed 
+   2.94    0.00    2.99 
 > 
 > cl <- makeCluster(2)
-> set.seed(11111)
-> res3 <- CEoptim(fmaxcut, f.arg = list(costs = lesmis), maximize = T, verbose = TRUE, discrete = list(probs = p0), N = 3000L, parallelize = TRUE, cl = cl)
+> system.time({set.seed(11111)
++ res3 <- CEoptim(fmaxcut, f.arg = list(costs = lesmis), maximize = T, verbose = TRUE, discrete = list(probs = p0), N = 3000L, parallelize = TRUE, cl = cl)})
 Number of continuous variables: 0  
 Number of discrete variables: 77 
 conMat= 
@@ -184,53 +184,31 @@ conVec=
 NULL
 smoothMean: 1 smoothSd: 1 smoothProb: 1 
 N: 3000 rho: 0.1 iterThr: 10000 sdThr: 0.001 probThr 0.001 
-   |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed = 00s
 iter: 0  opt: 494 maxProbs: 0.5
-   |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed = 00s
 iter: 1  opt: 501 maxProbs: 0.5
-   |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed = 00s
 iter: 2  opt: 501 maxProbs: 0.5
-   |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed = 00s
 iter: 3  opt: 501 maxProbs: 0.4966667
-   |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed = 00s
 iter: 4  opt: 506 maxProbs: 0.5
-   |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed = 00s
 iter: 5  opt: 510 maxProbs: 0.5
-   |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed = 00s
 iter: 6  opt: 514 maxProbs: 0.5
-   |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed = 00s
 iter: 7  opt: 515 maxProbs: 0.5
-   |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed = 00s
 iter: 8  opt: 519 maxProbs: 0.4966667
-   |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed = 00s
 iter: 9  opt: 523 maxProbs: 0.4933333
-   |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed = 00s
 iter: 10  opt: 526 maxProbs: 0.4966667
-   |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed = 00s
 iter: 11  opt: 528 maxProbs: 0.4933333
-   |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed = 00s
 iter: 12  opt: 528 maxProbs: 0.4866667
-   |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed = 00s
 iter: 13  opt: 530 maxProbs: 0.4966667
-   |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed = 00s
 iter: 14  opt: 532 maxProbs: 0.49
-   |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed = 00s
 iter: 15  opt: 532 maxProbs: 0.4733333
-   |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed = 00s
 iter: 16  opt: 532 maxProbs: 0.4533333
-   |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed = 00s
 iter: 17  opt: 533 maxProbs: 0.49
-   |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed = 00s
 iter: 18  opt: 533 maxProbs: 0.4533333
-   |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed = 00s
 iter: 19  opt: 533 maxProbs: 0.5
-   |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed = 00s
 iter: 20  opt: 533 maxProbs: 0.4366667
-   |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed = 00s
 iter: 21  opt: 533 maxProbs: 0.3766667
-   |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed = 00s
 iter: 22  opt: 533 maxProbs: 0.3633333
-   |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed = 00s
+   user  system elapsed 
+  19.06   10.91   45.36 
 > stopCluster(cl)
 > closeAllConnections()
 > 
@@ -261,8 +239,8 @@ iter: 22  opt: 533 maxProbs: 0.3633333
 > A <- rbind(diag(3), -diag(3))
 > b <- rep(1, 6)
 > 
-> set.seed(11111)
-> res1 <- CEoptim::CEoptim(f = sumsqrs,
+> system.time({set.seed(11111)
++ res1 <- CEoptim::CEoptim(f = sumsqrs,
 +                          f.arg = list(xt),
 +                          continuous = list(mean = c(0, 0,0),
 +                                            sd = rep(1, 0,3),
@@ -272,7 +250,7 @@ iter: 22  opt: 533 maxProbs: 0.3633333
 +                                          smoothProb = 0.5),
 +                          N = 10000,
 +                          rho = 0.001,
-+                          verbose = TRUE)
++                          verbose = TRUE)})
 Number of continuous variables: 3  
 Number of discrete variables: 2 
 conMat= 
@@ -300,9 +278,11 @@ iter: 9  opt: 2.675727 maxSd: 3.376241e-08 maxProbs: 0.01405922
 iter: 10  opt: 2.675727 maxSd: 7.751173e-09 maxProbs: 0.007029611
 iter: 11  opt: 2.675727 maxSd: 2.775761e-09 maxProbs: 0.003514806
 iter: 12  opt: 2.675727 maxSd: 1.736754e-09 maxProbs: 0.001757403
+   user  system elapsed 
+  12.14    0.01   12.30 
 > 
-> set.seed(11111)
-> res2 <- CEoptim(f = sumsqrs,
+> system.time({set.seed(11111)
++ res2 <- CEoptim(f = sumsqrs,
 +                 f.arg = list(xt),
 +                 continuous = list(mean = c(0, 0,0),
 +                                   sd = rep(1, 0,3),
@@ -312,7 +292,7 @@ iter: 12  opt: 2.675727 maxSd: 1.736754e-09 maxProbs: 0.001757403
 +                                 smoothProb = 0.5),
 +                 N = 10000,
 +                 rho = 0.001,
-+                 verbose = TRUE)
++                 verbose = TRUE)})
 Number of continuous variables: 3  
 Number of discrete variables: 2 
 conMat= 
@@ -340,10 +320,12 @@ iter: 9  opt: 2.675727 maxSd: 3.376241e-08 maxProbs: 0.01405922
 iter: 10  opt: 2.675727 maxSd: 7.751173e-09 maxProbs: 0.007029611
 iter: 11  opt: 2.675727 maxSd: 2.775761e-09 maxProbs: 0.003514806
 iter: 12  opt: 2.675727 maxSd: 1.736754e-09 maxProbs: 0.001757403
+   user  system elapsed 
+  12.13    0.02   12.18 
 > 
 > cl <- makeCluster(2)
-> set.seed(11111)
-> res3 <- CEoptim(f = sumsqrs,
+> system.time({set.seed(11111)
++ res3 <- CEoptim(f = sumsqrs,
 +                 f.arg = list(xt),
 +                 continuous = list(mean = c(0, 0,0),
 +                                   sd = rep(1, 0,3),
@@ -355,7 +337,7 @@ iter: 12  opt: 2.675727 maxSd: 1.736754e-09 maxProbs: 0.001757403
 +                 rho = 0.001,
 +                 verbose = TRUE,
 +                 parallelize = TRUE,
-+                 cl = cl)
++                 cl = cl)})
 Number of continuous variables: 3  
 Number of discrete variables: 2 
 conMat= 
@@ -370,33 +352,21 @@ conVec=
 [1] 1 1 1 1 1 1
 smoothMean: 1 smoothSd: 1 smoothProb: 0.5 
 N: 10000 rho: 0.001 iterThr: 10000 sdThr: 0.001 probThr 0.001 
-   |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed = 01s
 iter: 0  opt: 3.009517 maxSd: 0.3248419 maxProbs: 0.9483221
-   |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed = 01s
 iter: 1  opt: 2.70702 maxSd: 0.07449603 maxProbs: 0.7741611
-   |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed = 01s
 iter: 2  opt: 2.688896 maxSd: 0.04549593 maxProbs: 0.7495805
-   |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed = 01s
 iter: 3  opt: 2.677602 maxSd: 0.03024808 maxProbs: 0.6247903
-   |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed = 01s
 iter: 4  opt: 2.675769 maxSd: 0.006000473 maxProbs: 0.4498951
-   |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed = 01s
 iter: 5  opt: 2.675727 maxSd: 0.000613875 maxProbs: 0.2249476
-   |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed = 01s
 iter: 6  opt: 2.675727 maxSd: 7.4365e-05 maxProbs: 0.1124738
-   |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed = 02s
 iter: 7  opt: 2.675727 maxSd: 4.23201e-06 maxProbs: 0.05623689
-   |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed = 01s
 iter: 8  opt: 2.675727 maxSd: 4.225456e-07 maxProbs: 0.02811845
-   |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed = 01s
 iter: 9  opt: 2.675727 maxSd: 3.376241e-08 maxProbs: 0.01405922
-   |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed = 01s
 iter: 10  opt: 2.675727 maxSd: 7.751173e-09 maxProbs: 0.007029611
-   |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed = 01s
 iter: 11  opt: 2.675727 maxSd: 2.775761e-09 maxProbs: 0.003514806
-   |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed = 01s
 iter: 12  opt: 2.675727 maxSd: 1.736754e-09 maxProbs: 0.001757403
-   |++++++++++++++++++++++++++++++++++++++++++++++++++| 100% elapsed = 01s
+   user  system elapsed 
+  22.19    6.27   37.69 
 > stopCluster(cl)
 > closeAllConnections()
 > 

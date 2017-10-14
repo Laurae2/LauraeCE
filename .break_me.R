@@ -11,15 +11,15 @@ fun <- function(x){
 mu0 <- c(-3, -3)
 sigma0 <- c(10, 10)
 
-set.seed(11111)
-res1 <- CEoptim::CEoptim(fun, continuous = list(mean = mu0, sd = sigma0), maximize = TRUE)
+system.time({set.seed(11111)
+res1 <- CEoptim::CEoptim(fun, continuous = list(mean = mu0, sd = sigma0), maximize = TRUE)})
 
-set.seed(11111)
-res2 <- CEoptim(fun, continuous = list(mean = mu0, sd = sigma0), maximize = TRUE)
+system.time({set.seed(11111)
+res2 <- CEoptim(fun, continuous = list(mean = mu0, sd = sigma0), maximize = TRUE)})
 
 cl <- makeCluster(2)
-set.seed(11111)
-res3 <- CEoptim(fun, continuous = list(mean = mu0, sd = sigma0), maximize = TRUE, parallelize = TRUE, cl = cl)
+system.time({set.seed(11111)
+res3 <- CEoptim(fun, continuous = list(mean = mu0, sd = sigma0), maximize = TRUE, parallelize = TRUE, cl = cl)})
 stopCluster(cl)
 closeAllConnections()
 
@@ -42,15 +42,15 @@ for (i in 1:77) {
 }
 p0[[1]] <- c(0, 1)
 
-set.seed(11111)
-res1 <- CEoptim::CEoptim(fmaxcut, f.arg = list(costs = lesmis), maximize = T, verbose = TRUE, discrete = list(probs = p0), N = 3000L)
+system.time({set.seed(11111)
+res1 <- CEoptim::CEoptim(fmaxcut, f.arg = list(costs = lesmis), maximize = T, verbose = TRUE, discrete = list(probs = p0), N = 3000L)})
 
-set.seed(11111)
-res2 <- CEoptim(fmaxcut, f.arg = list(costs = lesmis), maximize = T, verbose = TRUE, discrete = list(probs = p0), N = 3000L)
+system.time({set.seed(11111)
+res2 <- CEoptim(fmaxcut, f.arg = list(costs = lesmis), maximize = T, verbose = TRUE, discrete = list(probs = p0), N = 3000L)})
 
 cl <- makeCluster(2)
-set.seed(11111)
-res3 <- CEoptim(fmaxcut, f.arg = list(costs = lesmis), maximize = T, verbose = TRUE, discrete = list(probs = p0), N = 3000L, parallelize = TRUE, cl = cl)
+system.time({set.seed(11111)
+res3 <- CEoptim(fmaxcut, f.arg = list(costs = lesmis), maximize = T, verbose = TRUE, discrete = list(probs = p0), N = 3000L, parallelize = TRUE, cl = cl)})
 stopCluster(cl)
 closeAllConnections()
 
@@ -79,7 +79,7 @@ xt <- yt - c(0, yt[-300])
 A <- rbind(diag(3), -diag(3))
 b <- rep(1, 6)
 
-set.seed(11111)
+system.time({set.seed(11111)
 res1 <- CEoptim::CEoptim(f = sumsqrs,
                          f.arg = list(xt),
                          continuous = list(mean = c(0, 0,0),
@@ -90,9 +90,9 @@ res1 <- CEoptim::CEoptim(f = sumsqrs,
                                          smoothProb = 0.5),
                          N = 10000,
                          rho = 0.001,
-                         verbose = TRUE)
+                         verbose = TRUE)})
 
-set.seed(11111)
+system.time({set.seed(11111)
 res2 <- CEoptim(f = sumsqrs,
                 f.arg = list(xt),
                 continuous = list(mean = c(0, 0,0),
@@ -103,10 +103,10 @@ res2 <- CEoptim(f = sumsqrs,
                                 smoothProb = 0.5),
                 N = 10000,
                 rho = 0.001,
-                verbose = TRUE)
+                verbose = TRUE)})
 
 cl <- makeCluster(2)
-set.seed(11111)
+system.time({set.seed(11111)
 res3 <- CEoptim(f = sumsqrs,
                 f.arg = list(xt),
                 continuous = list(mean = c(0, 0,0),
@@ -119,7 +119,7 @@ res3 <- CEoptim(f = sumsqrs,
                 rho = 0.001,
                 verbose = TRUE,
                 parallelize = TRUE,
-                cl = cl)
+                cl = cl)})
 stopCluster(cl)
 closeAllConnections()
 

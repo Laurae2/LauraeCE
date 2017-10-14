@@ -259,7 +259,7 @@ CEoptim <- function(f,
   if (parallelize == FALSE) {
     Y <- sapply(Y, ff)
   } else {
-    Y <- pbapply::pbsapply(Y, ff, cl = cl)
+    Y <- unlist(LauraeParallel::LauraeLapply(cl = cl, Y, ff))
   }
   
   ## Identify elite.
@@ -359,7 +359,7 @@ CEoptim <- function(f,
     if (parallelize == FALSE) {
       Y <- sapply(Y, ff)
     } else {
-      Y <- pbapply::pbsapply(Y, ff, cl = cl)
+      Y <- unlist(LauraeParallel::LauraeLapply(cl = cl, Y, ff))
     }
     
     ## Identify elite.

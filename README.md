@@ -2,11 +2,14 @@
 
 This R pacakge is meant to be used for Cross-Entropy optimization, which is a global optimization method for both continuous and discrete parameters. It tends to outperform Differential Evolution in my local tests.
 
+It also uses [LauraeParallel](https://github.com/Laurae2/LauraeParallel/) load balancing for parallelization, which makes it suitable for long and dynamic optimization tasks.
+
 **Cross-Entropy optimization earned 3rd place *(thanks to [Laurae](https://www.kaggle.com/laurae2))* in 2017 at the Ecole Nationale Supérieure metachallenge, earning several 1st and 2nd places in several challenges of the metachallenge** *(did you know Laurae did not receive any gift for such feat because the organizers ran out of gifts? now you know!)*.
 
 Installation:
 
 ```r
+devtools::install_github("Laurae2/LauraeParallel")
 devtools::install_github("Laurae2/LauraeCE")
 ```
 
@@ -14,7 +17,7 @@ Original source: https://cran.r-project.org/web/packages/CEoptim/index.html
 
 TO-DO:
 - [x] add parallelism
-- [ ] allow progress bar backend parameter
+- ~~[ ] allow progress bar backend parameter~~
 - [ ] add sink results to file parameter
 - [ ] add hot loading (use previous optimization)
 - [ ] add interrupt on the fly while saving data (tcltk?)

@@ -339,7 +339,7 @@ CEoptim <- function(f,
         
       } else if (total_time > 60) {
         
-        cat(" (", sprintf("%02d", floor(total_time / 60)), "m", sprintf("%02d", floor((total_time - 60 * floor(total_time / 60)) / 60)), "s", sprintf("%03d", floor(1000 * (total_time - floor(total_time)))), "ms, ", sep = "")
+        cat(" (", sprintf("%02d", floor(total_time / 60)), "m", sprintf("%02d", floor((total_time - 60 * floor(total_time / 60)))), "s", sprintf("%03d", floor(1000 * (total_time - floor(total_time)))), "ms, ", sep = "")
         
       } else {
         

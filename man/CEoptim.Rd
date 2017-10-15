@@ -4,7 +4,7 @@
 \usage{
 	CEoptim(f, f.arg=NULL, maximize=FALSE, continuous=NULL, discrete=NULL,
 	    N=100L, rho=0.1, iterThr=1e4L, noImproveThr=5, verbose=FALSE,
-		parallelize=FALSE, cl=NULL)}
+		max_time=Inf, parallelize=FALSE, cl=NULL)}
 
 
 \arguments{
@@ -56,6 +56,9 @@ value is found.}
 
 \item{verbose}{Logical value set for CE progress
 output.}
+
+\item{max_time}{Global maximum computation threshold time in seconds.
+Automatically stops when CEoptim was used at least this long.}
 
 \item{parallelize}{Parallelization through parallel package.}
 

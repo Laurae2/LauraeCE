@@ -57,6 +57,12 @@ closeAllConnections()
 all.equal(res1$optimizer$discrete, res2$optimizer$discrete)
 all.equal(res1$optimizer$discrete, res3$optimizer$discrete)
 
+cl <- makeCluster(2)
+system.time({set.seed(11111)
+  res3 <- CEoptim(fmaxcut, f.arg = list(costs = lesmis), maximize = T, verbose = TRUE, discrete = list(probs = p0), N = 3000L, max_time = 15, parallelize = TRUE, cl = cl)})
+stopCluster(cl)
+closeAllConnections()
+all.equal(res1$optimizer$discrete, res3$optimizer$discrete)
 
 
 # Mixed Input (Continuous + Discrete) Testing

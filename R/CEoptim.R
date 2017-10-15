@@ -8,8 +8,11 @@ CEoptim <- function(f,
                     iterThr = 1e4L,
                     noImproveThr = 5,
                     verbose = FALSE,
+                    max_time = Inf,
                     parallelize = FALSE,
                     cl = NULL) {
+  
+  start_time <- R.utils::System$currentTimeMillis()
   
   ### Parse and check arguments.
   ## f should be a function
@@ -247,7 +250,7 @@ CEoptim <- function(f,
   if (q > 0) {
     
     for (i in 1:q) {
-      Xd[,i] <- sample(0:(categories[i] - 1), N, replace = T, prob = tau0[[i]])
+      Xd[, i] <- sample(0:(categories[i] - 1), N, replace = T, prob = tau0[[i]])
     }
     
   }
@@ -255,12 +258,15 @@ CEoptim <- function(f,
   
   ## Evaluate objective function over initial sample
   # TO PARALLELIZE
+  init_time <- R.utils::System$currentTimeMillis()
   Y <- mapply(caller, lapply(1:N, function(j) {Xc[j, ,drop = FALSE]}), lapply(1:N, function(k) {Xd[k, , drop = FALSE]}), SIMPLIFY = FALSE)
   if (parallelize == FALSE) {
     Y <- sapply(Y, ff)
   } else {
     Y <- unlist(LauraeParallel::LauraeLapply(cl = cl, Y, ff))
   }
+  end_time <- R.utils::System$currentTimeMillis()
+  total_time <- (end_time - init_time) / 1000
   
   ## Identify elite.
   IX <- sort(Y, index.return = TRUE, decreasing = FALSE)$ix
@@ -298,23 +304,23 @@ CEoptim <- function(f,
   ctsOpt <- Xc[elite[1], ]
   disOpt <- Xd[elite[1], ]
   optimum <- Y[elite[1]]
-  gammat <-Y[elite[nElite]]
+  gammat <- Y[elite[nElite]]
   ceprocess <- NULL
   diffopt <- Inf
-  CEstates<- NULL
-  probst<-list()
+  CEstates <- NULL
+  probst <- list()
   
   ### Main loop -- test termination conditions
-  while (iter < iterThr && diffopt != 0 && ((p > 0 && max(sigma) > eps) || (q > 0 && max(1.0 - sapply(tau, max)) > eta))) {
+  while (iter < iterThr && diffopt != 0 && ((p > 0 && max(sigma) > eps) || (q > 0 && max(1.0 - sapply(tau, max)) > eta)) && ((end_time - start_time) / 1000) < max_time) {
     
     CEt <- NULL
     CEt <- c(iter, optimum * s, gammat * s)
     
-    if (p>0) {
+    if (p > 0) {
       CEt <- c(CEt, mu, max(sigma))
     }
     
-    if (q>0) {
+    if (q > 0) {
       CEt <- c(CEt, max(1.0 - sapply(tau,max)))
       namet <- paste("probs", iter, sep = "")
       assign(namet, tau)
@@ -324,14 +330,31 @@ CEoptim <- function(f,
     CEstates <- rbind(CEstates, CEt)
     
     if (verbose) {
-      cat("iter:", iter, " opt:", optimum * s)
       
-      if(p > 0){
-        cat(" maxSd:", max(sigma))
+      cat(format(Sys.time(), "%a %b %d %Y %X"))
+      
+      if (total_time > 3600) {
+        
+        cat(" t: ", sprintf("%02d", floor(total_time / (60 * 60))), "h", sprintf("%02d", floor((total_time - (60 * 60) * floor(total_time / (60 * 60))) / 60)), "m", sprintf("%02d", floor((total_time - 60 * floor(total_time / 60)))), "s", sprintf("%03d", floor(1000 * (total_time - floor(total_time)))), "ms - ", sep = "")
+        
+      } else if (total_time > 60) {
+        
+        cat(" t: ", sprintf("%02d", floor(total_time / 60)), "m", sprintf("%02d", floor((total_time - 60 * floor(total_time / 60)) / 60)), "s", sprintf("%03d", floor(1000 * (total_time - floor(total_time)))), "ms - ", sep = "")
+        
+      } else {
+        
+        cat(" t: ", sprintf("%02d", floor(total_time)), "s", sprintf("%03d", floor(1000 * (total_time - floor(total_time)))), "ms - ", sep = "")
+        
       }
       
-      if(q > 0) {
-        cat(" maxProbs:", max(1.0 - sapply(tau, max)))
+      cat("iter:", sprintf(paste0("%0", floor(log10(iterThr) + 1), "d"), iter), "- opt:", optimum * s)
+      
+      if (p > 0){
+        cat(" - maxSd:", max(sigma))
+      }
+      
+      if (q > 0) {
+        cat(" - maxProbs:", max(1.0 - sapply(tau, max)))
       }
       
       cat("\n")
@@ -355,12 +378,15 @@ CEoptim <- function(f,
     }
     
     # TO PARALLELIZE
+    init_time <- R.utils::System$currentTimeMillis()
     Y <- mapply(caller, lapply(1:N, function(j) {Xc[j, ,drop = FALSE]}), lapply(1:N, function(k) {Xd[k, , drop = FALSE]}), SIMPLIFY = FALSE)
     if (parallelize == FALSE) {
       Y <- sapply(Y, ff)
     } else {
       Y <- unlist(LauraeParallel::LauraeLapply(cl = cl, Y, ff))
     }
+    end_time <- R.utils::System$currentTimeMillis()
+    total_time <- (end_time - init_time) / 1000
     
     ## Identify elite.
     IX <- sort(Y, index.return = TRUE, decreasing = FALSE)$ix
@@ -425,6 +451,8 @@ CEoptim <- function(f,
   
   if (iter == iterThr) {
     convergence <- "Not converged"
+  } else if (((end_time - start_time) / 1000) >= max_time) {
+    convergence <- "Time out"
   } else if (diffopt == 0) {
     convergence <- paste("Optimum did not change for", noImproveThr, "iterations")
   } else {

@@ -12,4 +12,4 @@ setwd("D:/Data Science/Laurae_CE")
 devtools::check(document = FALSE)
 
 # Install package
-install("./")
+install()

@@ -331,23 +331,29 @@ CEoptim <- function(f,
     
     if (verbose) {
       
-      cat(format(Sys.time(), "%a %b %d %Y %X"))
+      cat(format(Sys.time(), "%a %b %d %Y %X"), "- iter:", sprintf(paste0("%0", floor(log10(iterThr) + 1), "d"), iter + 1))
       
       if (total_time > 3600) {
         
-        cat(" t: ", sprintf("%02d", floor(total_time / (60 * 60))), "h", sprintf("%02d", floor((total_time - (60 * 60) * floor(total_time / (60 * 60))) / 60)), "m", sprintf("%02d", floor((total_time - 60 * floor(total_time / 60)))), "s", sprintf("%03d", floor(1000 * (total_time - floor(total_time)))), "ms - ", sep = "")
+        cat(" (", sprintf("%02d", floor(total_time / (60 * 60))), "h", sprintf("%02d", floor((total_time - (60 * 60) * floor(total_time / (60 * 60))) / 60)), "m", sprintf("%02d", floor((total_time - 60 * floor(total_time / 60)))), "s", sprintf("%03d", floor(1000 * (total_time - floor(total_time)))), "ms, ", sep = "")
         
       } else if (total_time > 60) {
         
-        cat(" t: ", sprintf("%02d", floor(total_time / 60)), "m", sprintf("%02d", floor((total_time - 60 * floor(total_time / 60)) / 60)), "s", sprintf("%03d", floor(1000 * (total_time - floor(total_time)))), "ms - ", sep = "")
+        cat(" (", sprintf("%02d", floor(total_time / 60)), "m", sprintf("%02d", floor((total_time - 60 * floor(total_time / 60)) / 60)), "s", sprintf("%03d", floor(1000 * (total_time - floor(total_time)))), "ms, ", sep = "")
         
       } else {
         
-        cat(" t: ", sprintf("%02d", floor(total_time)), "s", sprintf("%03d", floor(1000 * (total_time - floor(total_time)))), "ms - ", sep = "")
+        cat(" (", sprintf("%02d", floor(total_time)), "s", sprintf("%03d", floor(1000 * (total_time - floor(total_time)))), "ms, ", sep = "")
         
       }
       
-      cat("iter:", sprintf(paste0("%0", floor(log10(iterThr) + 1), "d"), iter), "- opt:", optimum * s)
+      if ((total_time / N) > 1) {
+        cat(sprintf("%04.02f", (total_time / N)), "s/samples) - ")
+      } else {
+        cat(sprintf("%04.02f", (N / total_time)), "samples/s) - ")
+      }
+      
+      cat("opt:", optimum * s)
       
       if (p > 0){
         cat(" - maxSd:", max(sigma))

@@ -84,7 +84,8 @@ system.time({
   set.seed(11111)
   res3 <- CEoptim(fmaxcut,
                   f.arg = list(costs = lesmis),
-                  maximize = T, verbose = TRUE,
+                  maximize = TRUE,
+                  verbose = TRUE,
                   discrete = list(probs = p0),
                   N = 3000L,
                   parallelize = TRUE,

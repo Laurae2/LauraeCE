@@ -317,11 +317,11 @@ CEoptim <- function(f,
     CEt <- c(iter, optimum * s, gammat * s)
     
     if (p > 0) {
-      CEt <- c(CEt, mu, max(sigma))
+      CEt <- c(CEt, mu, sigma, max(sigma))
     }
     
     if (q > 0) {
-      CEt <- c(CEt, max(1.0 - sapply(tau,max)))
+      CEt <- c(CEt, max(1.0 - sapply(tau, max)))
       namet <- paste("probs", iter, sep = "")
       assign(namet, tau)
       probst[[iter + 1]] <- get(namet)
@@ -453,7 +453,22 @@ CEoptim <- function(f,
     
   }
   
+  # Redo row binding for the last iteration which was skipped from state board
+  CEt <- NULL
+  CEt <- c(iter, optimum * s, gammat * s)
   
+  if (p > 0) {
+    CEt <- c(CEt, mu, sigma, max(sigma))
+  }
+  
+  if (q > 0) {
+    CEt <- c(CEt, max(1.0 - sapply(tau, max)))
+    namet <- paste("probs", iter, sep = "")
+    assign(namet, tau)
+    probst[[iter + 1]] <- get(namet)
+  }
+  
+  CEstates <- rbind(CEstates, CEt)
   
   if (iter == iterThr) {
     convergence <- "Not converged"
@@ -465,15 +480,13 @@ CEoptim <- function(f,
     convergence <- "Variance converged"
   }
   
-  if (verbose) {
-    rownames(CEstates) <- c()
-    if(p > 0 && q == 0) {
-      colnames(CEstates) <- c("iter", "optimum", "gammat", paste("mean", 1:p, sep = ""), "maxSd")
-    } else if(p == 0 && q > 0) {
-      colnames(CEstates) <- c("iter", "optimum", "gammat", "maxProbs")
-    } else if(p > 0 && q > 0) {
-      colnames(CEstates) <- c("iter", "optimum", "gammat", paste("mean", 1:p, sep = ""), "maxSd", "maxProbs")
-    }
+  rownames(CEstates) <- c()
+  if(p > 0 && q == 0) {
+    colnames(CEstates) <- c("iter", "optimum", "gammat", paste("mean", 1:p, sep = ""), paste("sd", 1:p, sep = ""), "maxSd")
+  } else if(p == 0 && q > 0) {
+    colnames(CEstates) <- c("iter", "optimum", "gammat", "maxProbs")
+  } else if(p > 0 && q > 0) {
+    colnames(CEstates) <- c("iter", "optimum", "gammat", paste("mean", 1:p, sep = ""), paste("sd", 1:p, sep = ""), "maxSd", "maxProbs")
   }
   
   out <- list(optimizer = list(continuous = ctsOpt, discrete = disOpt),

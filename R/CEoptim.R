@@ -348,9 +348,9 @@ CEoptim <- function(f,
       }
       
       if ((total_time / N) > 1) {
-        cat(sprintf("%04.02f", (total_time / N)), "s/samples) - ")
+        cat(sprintf("%04.02f", (total_time / N)), " s/samples", ifelse(parallelize, paste0(", ", sprintf("%04.02f", ((total_time * length(cl)) / N)), " s/s/thread"), ""), ") - ", sep = "")
       } else {
-        cat(sprintf("%04.02f", (N / total_time)), "samples/s) - ")
+        cat(sprintf("%04.02f", (N / total_time)), " samples/s", ifelse(parallelize, paste0(", ", sprintf("%04.02f", (N / (total_time * length(cl)))), " s/s/thread"), ""), ") - ", sep = "")
       }
       
       cat("opt:", optimum * s)

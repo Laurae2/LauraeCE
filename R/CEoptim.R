@@ -489,11 +489,18 @@ CEoptim <- function(f,
     colnames(CEstates) <- c("iter", "optimum", "gammat", paste("mean", 1:p, sep = ""), paste("sd", 1:p, sep = ""), "maxSd", "maxProbs")
   }
   
+  if (maximize) {
+    best_iter <- which.max(CEstates[, 2])
+  } else {
+    best_iter <- which.min(CEstates[, 2])
+  }
+  
   out <- list(optimizer = list(continuous = ctsOpt, discrete = disOpt),
               optimum = s * optimum,
               termination = list(niter = iter, nfe = iter * N, convergence = convergence),
               states = CEstates,
-              states.probs = probst)
+              states.probs = probst,
+              best_iter = best_iter)
   class(out)<- "CEoptim"
   return(out)
   

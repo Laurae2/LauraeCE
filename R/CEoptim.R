@@ -426,6 +426,7 @@ CEoptim <- function(f,
     
     ## Reestimate sampling distributions.
     if (p > 0) {
+      
       mu <- colMeans(Xc[elite, , drop = FALSE]) * alpha + mu * (1 - alpha)
       
       sigma <- apply(Xc[elite, , drop = FALSE], MARGIN = 2, FUN = sd) * beta + sigma * (1 - beta)
@@ -434,6 +435,7 @@ CEoptim <- function(f,
     }
     
     if (q > 0) {
+      
       ## Reestimate multivariate categorical distribution with smoothing.
       tau0 <- tau
       counts <- lapply(split(Xd[elite, , drop = FALSE], col(Xd[elite, , drop = FALSE])), table)
@@ -469,6 +471,44 @@ CEoptim <- function(f,
   }
   
   CEstates <- rbind(CEstates, CEt)
+  
+  if (verbose) {
+    
+    cat(format(Sys.time(), "%a %b %d %Y %X"), "- iter:", sprintf(paste0("%0", floor(log10(iterThr) + 1), "d"), iter + 1))
+    
+    if (total_time > 3600) {
+      
+      cat(" (", sprintf("%02d", floor(total_time / (60 * 60))), "h", sprintf("%02d", floor((total_time - (60 * 60) * floor(total_time / (60 * 60))) / 60)), "m", sprintf("%02d", floor((total_time - 60 * floor(total_time / 60)))), "s", sprintf("%03d", floor(1000 * (total_time - floor(total_time)))), "ms, ", sep = "")
+      
+    } else if (total_time > 60) {
+      
+      cat(" (", sprintf("%02d", floor(total_time / 60)), "m", sprintf("%02d", floor((total_time - 60 * floor(total_time / 60)))), "s", sprintf("%03d", floor(1000 * (total_time - floor(total_time)))), "ms, ", sep = "")
+      
+    } else {
+      
+      cat(" (", sprintf("%02d", floor(total_time)), "s", sprintf("%03d", floor(1000 * (total_time - floor(total_time)))), "ms, ", sep = "")
+      
+    }
+    
+    if ((total_time / N) > 1) {
+      cat(sprintf("%04.02f", (total_time / N)), " s/samples", ifelse(parallelize, paste0(", ", sprintf("%04.02f", ((total_time * length(cl)) / N)), " s/s/thread"), ""), ") - ", sep = "")
+    } else {
+      cat(sprintf("%04.02f", (N / total_time)), " samples/s", ifelse(parallelize, paste0(", ", sprintf("%04.02f", (N / (total_time * length(cl)))), " s/s/thread"), ""), ") - ", sep = "")
+    }
+    
+    cat("opt:", optimum * s)
+    
+    if (p > 0){
+      cat(" - maxSd:", max(sigma))
+    }
+    
+    if (q > 0) {
+      cat(" - maxProbs:", max(1.0 - sapply(tau, max)))
+    }
+    
+    cat("\n")
+    
+  }
   
   if (iter == iterThr) {
     convergence <- "Not converged"

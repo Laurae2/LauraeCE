@@ -1,8 +1,8 @@
 Package: LauraeCE
 Type: Package
 Title: Laurae's Cross-Entropy Optimization
-Version: 2.0.20171117
-Date: 2017-08-10
+Version: 2.0.20171223
+Date: 2017-12-23
 Authors@R: person("First", "Last", email = "first.last@example.com", role = c("aut", "cre"))
 Depends: MASS, msm, stats, sna, R.utils, LauraeParallel
 Description: Optimization solver based on the Cross-Entropy method.

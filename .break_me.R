@@ -1,6 +1,8 @@
 suppressMessages(library(LauraeCE))
 suppressMessages(library(parallel))
 
+# Since 2017/12/23, the strategy to generate discrete data has changed
+# Therefore, matching results with the old CEoptim is not possible anymore when using discrete data.
 
 # Continuous Testing
 

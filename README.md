@@ -48,7 +48,7 @@ This is how it currently looks and you will notice it is absurdly SLOW on very s
 +                            maximize = TRUE)
 + })
    user  system elapsed 
-   0.09    0.00    0.10 
+   0.03    0.00    0.03 
 > 
 > system.time({
 +   set.seed(11111)
@@ -58,7 +58,7 @@ This is how it currently looks and you will notice it is absurdly SLOW on very s
 +                   maximize = TRUE)
 + })
    user  system elapsed 
-   0.09    0.00    0.10 
+   0.42    0.00    0.44 
 > 
 > cl <- makeCluster(2)
 > system.time({
@@ -71,7 +71,7 @@ This is how it currently looks and you will notice it is absurdly SLOW on very s
 +                   cl = cl)
 + })
    user  system elapsed 
-   0.34    0.02    1.36 
+   0.09    0.02    0.14 
 > stopCluster(cl)
 > closeAllConnections()
 > 
@@ -137,7 +137,7 @@ iter: 20  opt: 533 maxProbs: 0.4366667
 iter: 21  opt: 533 maxProbs: 0.3766667
 iter: 22  opt: 533 maxProbs: 0.3633333
    user  system elapsed 
-   2.80    0.00    2.81 
+   2.40    0.00    2.41 
 > 
 > system.time({
 +   set.seed(11111)
@@ -156,32 +156,32 @@ conVec=
 NULL
 smoothMean: 1 smoothSd: 1 smoothProb: 1 
 N: 3000 rho: 0.1 iterThr: 10000 sdThr: 0.001 probThr 0.001 
-Fri Nov 17 2017 08:52:31 PM - iter: 00001 (00s063ms, 47592.49 samples/s) - opt: 494 - maxProbs: 0.5
-Fri Nov 17 2017 08:52:31 PM - iter: 00002 (00s080ms, 37047.98 samples/s) - opt: 501 - maxProbs: 0.5
-Fri Nov 17 2017 08:52:31 PM - iter: 00003 (00s072ms, 41604.88 samples/s) - opt: 501 - maxProbs: 0.5
-Fri Nov 17 2017 08:52:31 PM - iter: 00004 (00s089ms, 33704.44 samples/s) - opt: 501 - maxProbs: 0.4966667
-Fri Nov 17 2017 08:52:32 PM - iter: 00005 (00s087ms, 34308.88 samples/s) - opt: 506 - maxProbs: 0.5
-Fri Nov 17 2017 08:52:32 PM - iter: 00006 (00s076ms, 39087.45 samples/s) - opt: 510 - maxProbs: 0.5
-Fri Nov 17 2017 08:52:32 PM - iter: 00007 (00s099ms, 30264.22 samples/s) - opt: 514 - maxProbs: 0.5
-Fri Nov 17 2017 08:52:32 PM - iter: 00008 (00s100ms, 29927.96 samples/s) - opt: 515 - maxProbs: 0.5
-Fri Nov 17 2017 08:52:32 PM - iter: 00009 (00s082ms, 36370.31 samples/s) - opt: 519 - maxProbs: 0.4966667
-Fri Nov 17 2017 08:52:32 PM - iter: 00010 (00s114ms, 26217.81 samples/s) - opt: 523 - maxProbs: 0.4933333
-Fri Nov 17 2017 08:52:32 PM - iter: 00011 (00s173ms, 17267.98 samples/s) - opt: 526 - maxProbs: 0.4966667
-Fri Nov 17 2017 08:52:32 PM - iter: 00012 (00s065ms, 45560.72 samples/s) - opt: 528 - maxProbs: 0.4933333
-Fri Nov 17 2017 08:52:33 PM - iter: 00013 (00s077ms, 38496.48 samples/s) - opt: 528 - maxProbs: 0.4866667
-Fri Nov 17 2017 08:52:33 PM - iter: 00014 (00s082ms, 36347.39 samples/s) - opt: 530 - maxProbs: 0.4966667
-Fri Nov 17 2017 08:52:33 PM - iter: 00015 (00s086ms, 34807.63 samples/s) - opt: 532 - maxProbs: 0.49
-Fri Nov 17 2017 08:52:33 PM - iter: 00016 (00s166ms, 18057.39 samples/s) - opt: 532 - maxProbs: 0.4733333
-Fri Nov 17 2017 08:52:33 PM - iter: 00017 (00s066ms, 45055.22 samples/s) - opt: 532 - maxProbs: 0.4533333
-Fri Nov 17 2017 08:52:33 PM - iter: 00018 (00s090ms, 33115.76 samples/s) - opt: 533 - maxProbs: 0.49
-Fri Nov 17 2017 08:52:33 PM - iter: 00019 (00s068ms, 44050.27 samples/s) - opt: 533 - maxProbs: 0.4533333
-Fri Nov 17 2017 08:52:33 PM - iter: 00020 (00s073ms, 40817.41 samples/s) - opt: 533 - maxProbs: 0.5
-Fri Nov 17 2017 08:52:34 PM - iter: 00021 (00s081ms, 36711.61 samples/s) - opt: 533 - maxProbs: 0.4366667
-Fri Nov 17 2017 08:52:34 PM - iter: 00022 (00s071ms, 42021.61 samples/s) - opt: 533 - maxProbs: 0.3766667
-Fri Nov 17 2017 08:52:34 PM - iter: 00023 (00s082ms, 36292.86 samples/s) - opt: 533 - maxProbs: 0.3633333
-Fri Nov 17 2017 08:52:34 PM - iter: 00024 (00s085ms, 35009.94 samples/s) - opt: 533 - maxProbs: 0.3466667
+Sat Dec 23 2017 02:36:45 PM - iter: 00001 (00s082ms, 36287.07 samples/s) - opt: 494 - maxProbs: 0.5
+Sat Dec 23 2017 02:36:45 PM - iter: 00002 (00s066ms, 44985.61 samples/s) - opt: 501 - maxProbs: 0.5
+Sat Dec 23 2017 02:36:45 PM - iter: 00003 (00s073ms, 40941.17 samples/s) - opt: 501 - maxProbs: 0.5
+Sat Dec 23 2017 02:36:46 PM - iter: 00004 (00s068ms, 43923.99 samples/s) - opt: 501 - maxProbs: 0.4966667
+Sat Dec 23 2017 02:36:46 PM - iter: 00005 (00s076ms, 39105.11 samples/s) - opt: 506 - maxProbs: 0.5
+Sat Dec 23 2017 02:36:46 PM - iter: 00006 (00s143ms, 20878.71 samples/s) - opt: 510 - maxProbs: 0.5
+Sat Dec 23 2017 02:36:46 PM - iter: 00007 (00s065ms, 45805.62 samples/s) - opt: 514 - maxProbs: 0.5
+Sat Dec 23 2017 02:36:46 PM - iter: 00008 (00s070ms, 42742.95 samples/s) - opt: 515 - maxProbs: 0.5
+Sat Dec 23 2017 02:36:46 PM - iter: 00009 (00s076ms, 39368.59 samples/s) - opt: 519 - maxProbs: 0.4966667
+Sat Dec 23 2017 02:36:46 PM - iter: 00010 (00s081ms, 36701.63 samples/s) - opt: 523 - maxProbs: 0.4933333
+Sat Dec 23 2017 02:36:46 PM - iter: 00011 (00s068ms, 43615.30 samples/s) - opt: 526 - maxProbs: 0.4966667
+Sat Dec 23 2017 02:36:46 PM - iter: 00012 (00s086ms, 34672.88 samples/s) - opt: 528 - maxProbs: 0.4933333
+Sat Dec 23 2017 02:36:47 PM - iter: 00013 (00s170ms, 17563.39 samples/s) - opt: 528 - maxProbs: 0.4866667
+Sat Dec 23 2017 02:36:47 PM - iter: 00014 (00s060ms, 49344.64 samples/s) - opt: 530 - maxProbs: 0.4966667
+Sat Dec 23 2017 02:36:47 PM - iter: 00015 (00s065ms, 45481.46 samples/s) - opt: 532 - maxProbs: 0.49
+Sat Dec 23 2017 02:36:47 PM - iter: 00016 (00s157ms, 19045.67 samples/s) - opt: 532 - maxProbs: 0.4733333
+Sat Dec 23 2017 02:36:47 PM - iter: 00017 (00s079ms, 37972.81 samples/s) - opt: 532 - maxProbs: 0.4533333
+Sat Dec 23 2017 02:36:47 PM - iter: 00018 (00s069ms, 42964.58 samples/s) - opt: 533 - maxProbs: 0.49
+Sat Dec 23 2017 02:36:47 PM - iter: 00019 (00s072ms, 41309.76 samples/s) - opt: 533 - maxProbs: 0.4533333
+Sat Dec 23 2017 02:36:47 PM - iter: 00020 (00s066ms, 45445.80 samples/s) - opt: 533 - maxProbs: 0.5
+Sat Dec 23 2017 02:36:47 PM - iter: 00021 (00s081ms, 36698.12 samples/s) - opt: 533 - maxProbs: 0.4366667
+Sat Dec 23 2017 02:36:48 PM - iter: 00022 (00s065ms, 45617.55 samples/s) - opt: 533 - maxProbs: 0.3766667
+Sat Dec 23 2017 02:36:48 PM - iter: 00023 (00s072ms, 41595.58 samples/s) - opt: 533 - maxProbs: 0.3633333
+Sat Dec 23 2017 02:36:48 PM - iter: 00024 (00s128ms, 23352.47 samples/s) - opt: 533 - maxProbs: 0.3466667
    user  system elapsed 
-   2.97    0.00    2.92 
+   2.77    0.01    2.77 
 > 
 > cl <- makeCluster(2)
 > system.time({
@@ -203,32 +203,32 @@ conVec=
 NULL
 smoothMean: 1 smoothSd: 1 smoothProb: 1 
 N: 3000 rho: 0.1 iterThr: 10000 sdThr: 0.001 probThr 0.001 
-Fri Nov 17 2017 08:52:38 PM - iter: 00001 (04s335ms, 691.93 samples/s, 345.96 s/s/thread) - opt: 494 - maxProbs: 0.5
-Fri Nov 17 2017 08:52:40 PM - iter: 00002 (00s535ms, 5606.58 samples/s, 2803.29 s/s/thread) - opt: 501 - maxProbs: 0.5
-Fri Nov 17 2017 08:52:41 PM - iter: 00003 (01s568ms, 1913.22 samples/s, 956.61 s/s/thread) - opt: 501 - maxProbs: 0.5
-Fri Nov 17 2017 08:52:42 PM - iter: 00004 (01s446ms, 2073.43 samples/s, 1036.71 s/s/thread) - opt: 501 - maxProbs: 0.4966667
-Fri Nov 17 2017 08:52:43 PM - iter: 00005 (00s631ms, 4750.56 samples/s, 2375.28 s/s/thread) - opt: 506 - maxProbs: 0.5
-Fri Nov 17 2017 08:52:44 PM - iter: 00006 (01s468ms, 2042.84 samples/s, 1021.42 s/s/thread) - opt: 510 - maxProbs: 0.5
-Fri Nov 17 2017 08:52:46 PM - iter: 00007 (00s596ms, 5027.46 samples/s, 2513.73 s/s/thread) - opt: 514 - maxProbs: 0.5
-Fri Nov 17 2017 08:52:47 PM - iter: 00008 (01s551ms, 1934.02 samples/s, 967.01 s/s/thread) - opt: 515 - maxProbs: 0.5
-Fri Nov 17 2017 08:52:48 PM - iter: 00009 (01s401ms, 2139.99 samples/s, 1069.99 s/s/thread) - opt: 519 - maxProbs: 0.4966667
-Fri Nov 17 2017 08:52:49 PM - iter: 00010 (01s475ms, 2032.73 samples/s, 1016.36 s/s/thread) - opt: 523 - maxProbs: 0.4933333
-Fri Nov 17 2017 08:52:50 PM - iter: 00011 (00s504ms, 5941.48 samples/s, 2970.74 s/s/thread) - opt: 526 - maxProbs: 0.4966667
-Fri Nov 17 2017 08:52:52 PM - iter: 00012 (01s626ms, 1844.98 samples/s, 922.49 s/s/thread) - opt: 528 - maxProbs: 0.4933333
-Fri Nov 17 2017 08:52:53 PM - iter: 00013 (01s472ms, 2036.91 samples/s, 1018.46 s/s/thread) - opt: 528 - maxProbs: 0.4866667
-Fri Nov 17 2017 08:52:54 PM - iter: 00014 (01s460ms, 2054.40 samples/s, 1027.20 s/s/thread) - opt: 530 - maxProbs: 0.4966667
-Fri Nov 17 2017 08:52:56 PM - iter: 00015 (00s534ms, 5609.19 samples/s, 2804.59 s/s/thread) - opt: 532 - maxProbs: 0.49
-Fri Nov 17 2017 08:52:57 PM - iter: 00016 (01s467ms, 2044.74 samples/s, 1022.37 s/s/thread) - opt: 532 - maxProbs: 0.4733333
-Fri Nov 17 2017 08:52:58 PM - iter: 00017 (01s445ms, 2075.91 samples/s, 1037.96 s/s/thread) - opt: 532 - maxProbs: 0.4533333
-Fri Nov 17 2017 08:52:59 PM - iter: 00018 (00s578ms, 5189.29 samples/s, 2594.64 s/s/thread) - opt: 533 - maxProbs: 0.49
-Fri Nov 17 2017 08:53:00 PM - iter: 00019 (01s553ms, 1930.52 samples/s, 965.26 s/s/thread) - opt: 533 - maxProbs: 0.4533333
-Fri Nov 17 2017 08:53:02 PM - iter: 00020 (01s414ms, 2120.41 samples/s, 1060.21 s/s/thread) - opt: 533 - maxProbs: 0.5
-Fri Nov 17 2017 08:53:03 PM - iter: 00021 (01s498ms, 2002.18 samples/s, 1001.09 s/s/thread) - opt: 533 - maxProbs: 0.4366667
-Fri Nov 17 2017 08:53:04 PM - iter: 00022 (00s553ms, 5424.29 samples/s, 2712.14 s/s/thread) - opt: 533 - maxProbs: 0.3766667
-Fri Nov 17 2017 08:53:06 PM - iter: 00023 (01s534ms, 1954.90 samples/s, 977.45 s/s/thread) - opt: 533 - maxProbs: 0.3633333
-Fri Nov 17 2017 08:53:07 PM - iter: 00024 (01s552ms, 1932.30 samples/s, 966.15 s/s/thread) - opt: 533 - maxProbs: 0.3466667
+Sat Dec 23 2017 02:36:50 PM - iter: 00001 (02s014ms, 1489.11 samples/s, 744.55 s/s/thread) - opt: 494 - maxProbs: 0.5
+Sat Dec 23 2017 02:36:51 PM - iter: 00002 (00s682ms, 4395.58 samples/s, 2197.79 s/s/thread) - opt: 501 - maxProbs: 0.5
+Sat Dec 23 2017 02:36:52 PM - iter: 00003 (01s691ms, 1773.06 samples/s, 886.53 s/s/thread) - opt: 501 - maxProbs: 0.5
+Sat Dec 23 2017 02:36:54 PM - iter: 00004 (00s440ms, 6811.68 samples/s, 3405.84 s/s/thread) - opt: 501 - maxProbs: 0.4966667
+Sat Dec 23 2017 02:36:55 PM - iter: 00005 (01s532ms, 1957.99 samples/s, 978.99 s/s/thread) - opt: 506 - maxProbs: 0.5
+Sat Dec 23 2017 02:36:56 PM - iter: 00006 (01s619ms, 1852.11 samples/s, 926.05 s/s/thread) - opt: 510 - maxProbs: 0.5
+Sat Dec 23 2017 02:36:57 PM - iter: 00007 (00s571ms, 5247.09 samples/s, 2623.54 s/s/thread) - opt: 514 - maxProbs: 0.5
+Sat Dec 23 2017 02:36:59 PM - iter: 00008 (01s551ms, 1933.35 samples/s, 966.68 s/s/thread) - opt: 515 - maxProbs: 0.5
+Sat Dec 23 2017 02:37:00 PM - iter: 00009 (01s431ms, 2095.47 samples/s, 1047.74 s/s/thread) - opt: 519 - maxProbs: 0.4966667
+Sat Dec 23 2017 02:37:01 PM - iter: 00010 (00s544ms, 5514.17 samples/s, 2757.08 s/s/thread) - opt: 523 - maxProbs: 0.4933333
+Sat Dec 23 2017 02:37:02 PM - iter: 00011 (01s449ms, 2070.38 samples/s, 1035.19 s/s/thread) - opt: 526 - maxProbs: 0.4966667
+Sat Dec 23 2017 02:37:03 PM - iter: 00012 (01s438ms, 2085.91 samples/s, 1042.95 s/s/thread) - opt: 528 - maxProbs: 0.4933333
+Sat Dec 23 2017 02:37:05 PM - iter: 00013 (00s497ms, 6034.04 samples/s, 3017.02 s/s/thread) - opt: 528 - maxProbs: 0.4866667
+Sat Dec 23 2017 02:37:06 PM - iter: 00014 (01s495ms, 2006.57 samples/s, 1003.29 s/s/thread) - opt: 530 - maxProbs: 0.4966667
+Sat Dec 23 2017 02:37:07 PM - iter: 00015 (01s589ms, 1887.85 samples/s, 943.93 s/s/thread) - opt: 532 - maxProbs: 0.49
+Sat Dec 23 2017 02:37:08 PM - iter: 00016 (01s465ms, 2047.09 samples/s, 1023.55 s/s/thread) - opt: 532 - maxProbs: 0.4733333
+Sat Dec 23 2017 02:37:10 PM - iter: 00017 (00s530ms, 5649.94 samples/s, 2824.97 s/s/thread) - opt: 532 - maxProbs: 0.4533333
+Sat Dec 23 2017 02:37:11 PM - iter: 00018 (01s609ms, 1863.66 samples/s, 931.83 s/s/thread) - opt: 533 - maxProbs: 0.49
+Sat Dec 23 2017 02:37:12 PM - iter: 00019 (01s451ms, 2066.34 samples/s, 1033.17 s/s/thread) - opt: 533 - maxProbs: 0.4533333
+Sat Dec 23 2017 02:37:13 PM - iter: 00020 (00s557ms, 5377.65 samples/s, 2688.83 s/s/thread) - opt: 533 - maxProbs: 0.5
+Sat Dec 23 2017 02:37:15 PM - iter: 00021 (01s630ms, 1839.57 samples/s, 919.78 s/s/thread) - opt: 533 - maxProbs: 0.4366667
+Sat Dec 23 2017 02:37:16 PM - iter: 00022 (01s564ms, 1917.31 samples/s, 958.66 s/s/thread) - opt: 533 - maxProbs: 0.3766667
+Sat Dec 23 2017 02:37:17 PM - iter: 00023 (01s426ms, 2103.27 samples/s, 1051.64 s/s/thread) - opt: 533 - maxProbs: 0.3633333
+Sat Dec 23 2017 02:37:19 PM - iter: 00024 (00s485ms, 6179.45 samples/s, 3089.73 s/s/thread) - opt: 533 - maxProbs: 0.3466667
    user  system elapsed 
-  16.30    7.45   32.52 
+  17.10    7.63   30.55 
 > stopCluster(cl)
 > closeAllConnections()
 > 
@@ -258,23 +258,25 @@ conVec=
 NULL
 smoothMean: 1 smoothSd: 1 smoothProb: 1 
 N: 3000 rho: 0.1 iterThr: 10000 sdThr: 0.001 probThr 0.001 
-Fri Nov 17 2017 08:53:11 PM - iter: 00001 (03s901ms, 768.91 samples/s, 384.45 s/s/thread) - opt: 494 - maxProbs: 0.5
-Fri Nov 17 2017 08:53:12 PM - iter: 00002 (00s436ms, 6877.99 samples/s, 3438.99 s/s/thread) - opt: 501 - maxProbs: 0.5
-Fri Nov 17 2017 08:53:13 PM - iter: 00003 (01s451ms, 2066.92 samples/s, 1033.46 s/s/thread) - opt: 501 - maxProbs: 0.5
-Fri Nov 17 2017 08:53:15 PM - iter: 00004 (01s406ms, 2132.94 samples/s, 1066.47 s/s/thread) - opt: 501 - maxProbs: 0.4966667
-Fri Nov 17 2017 08:53:16 PM - iter: 00005 (00s485ms, 6182.57 samples/s, 3091.28 s/s/thread) - opt: 506 - maxProbs: 0.5
-Fri Nov 17 2017 08:53:17 PM - iter: 00006 (01s582ms, 1895.22 samples/s, 947.61 s/s/thread) - opt: 510 - maxProbs: 0.5
-Fri Nov 17 2017 08:53:18 PM - iter: 00007 (01s468ms, 2042.29 samples/s, 1021.15 s/s/thread) - opt: 514 - maxProbs: 0.5
-Fri Nov 17 2017 08:53:20 PM - iter: 00008 (01s509ms, 1987.68 samples/s, 993.84 s/s/thread) - opt: 515 - maxProbs: 0.5
-Fri Nov 17 2017 08:53:21 PM - iter: 00009 (00s448ms, 6684.03 samples/s, 3342.02 s/s/thread) - opt: 519 - maxProbs: 0.4966667
-Fri Nov 17 2017 08:53:22 PM - iter: 00010 (01s480ms, 2026.94 samples/s, 1013.47 s/s/thread) - opt: 523 - maxProbs: 0.4933333
-Fri Nov 17 2017 08:53:23 PM - iter: 00011 (01s523ms, 1969.20 samples/s, 984.60 s/s/thread) - opt: 526 - maxProbs: 0.4966667
+Sat Dec 23 2017 02:37:21 PM - iter: 00001 (01s909ms, 1571.21 samples/s, 785.61 s/s/thread) - opt: 494 - maxProbs: 0.5
+Sat Dec 23 2017 02:37:22 PM - iter: 00002 (01s501ms, 1998.43 samples/s, 999.21 s/s/thread) - opt: 501 - maxProbs: 0.5
+Sat Dec 23 2017 02:37:23 PM - iter: 00003 (00s451ms, 6644.30 samples/s, 3322.15 s/s/thread) - opt: 501 - maxProbs: 0.5
+Sat Dec 23 2017 02:37:24 PM - iter: 00004 (01s539ms, 1949.02 samples/s, 974.51 s/s/thread) - opt: 501 - maxProbs: 0.4966667
+Sat Dec 23 2017 02:37:26 PM - iter: 00005 (01s617ms, 1854.80 samples/s, 927.40 s/s/thread) - opt: 506 - maxProbs: 0.5
+Sat Dec 23 2017 02:37:27 PM - iter: 00006 (00s426ms, 7027.42 samples/s, 3513.71 s/s/thread) - opt: 510 - maxProbs: 0.5
+Sat Dec 23 2017 02:37:28 PM - iter: 00007 (01s526ms, 1965.72 samples/s, 982.86 s/s/thread) - opt: 514 - maxProbs: 0.5
+Sat Dec 23 2017 02:37:29 PM - iter: 00008 (01s603ms, 1870.60 samples/s, 935.30 s/s/thread) - opt: 515 - maxProbs: 0.5
+Sat Dec 23 2017 02:37:31 PM - iter: 00009 (00s483ms, 6203.28 samples/s, 3101.64 s/s/thread) - opt: 519 - maxProbs: 0.4966667
+Sat Dec 23 2017 02:37:32 PM - iter: 00010 (01s520ms, 1973.57 samples/s, 986.79 s/s/thread) - opt: 523 - maxProbs: 0.4933333
+Sat Dec 23 2017 02:37:33 PM - iter: 00011 (01s528ms, 1962.99 samples/s, 981.50 s/s/thread) - opt: 526 - maxProbs: 0.4966667
+Sat Dec 23 2017 02:37:34 PM - iter: 00012 (00s511ms, 5869.28 samples/s, 2934.64 s/s/thread) - opt: 528 - maxProbs: 0.4933333
+Sat Dec 23 2017 02:37:36 PM - iter: 00013 (01s484ms, 2021.28 samples/s, 1010.64 s/s/thread) - opt: 528 - maxProbs: 0.4866667
    user  system elapsed 
-   7.30    2.80   16.22 
+   8.96    4.17   16.38 
 > stopCluster(cl)
 > closeAllConnections()
 > all.equal(res1$optimizer$discrete, res3$optimizer$discrete)
-[1] "Mean relative difference: 2.333333"
+[1] "Mean relative difference: 1.8"
 > 
 > 
 > # Mixed Input (Continuous + Discrete) Testing
@@ -339,7 +341,7 @@ iter: 10  opt: 2.675727 maxSd: 7.751173e-09 maxProbs: 0.007029611
 iter: 11  opt: 2.675727 maxSd: 2.775761e-09 maxProbs: 0.003514806
 iter: 12  opt: 2.675727 maxSd: 1.736754e-09 maxProbs: 0.001757403
    user  system elapsed 
-   8.56    0.00    8.56 
+   9.06    0.02    9.10 
 > 
 > system.time({
 +   set.seed(11111)
@@ -369,22 +371,22 @@ conVec=
 [1] 1 1 1 1 1 1
 smoothMean: 1 smoothSd: 1 smoothProb: 0.5 
 N: 10000 rho: 0.001 iterThr: 10000 sdThr: 0.001 probThr 0.001 
-Fri Nov 17 2017 08:53:33 PM - iter: 00001 (00s624ms, 16019.76 samples/s) - opt: 3.009517 - maxSd: 0.3248419 - maxProbs: 0.9483221
-Fri Nov 17 2017 08:53:34 PM - iter: 00002 (00s621ms, 16083.93 samples/s) - opt: 2.70702 - maxSd: 0.07449603 - maxProbs: 0.7741611
-Fri Nov 17 2017 08:53:34 PM - iter: 00003 (00s588ms, 16996.45 samples/s) - opt: 2.688896 - maxSd: 0.04549593 - maxProbs: 0.7495805
-Fri Nov 17 2017 08:53:35 PM - iter: 00004 (00s637ms, 15678.53 samples/s) - opt: 2.677602 - maxSd: 0.03024808 - maxProbs: 0.6247903
-Fri Nov 17 2017 08:53:35 PM - iter: 00005 (00s544ms, 18368.28 samples/s) - opt: 2.675769 - maxSd: 0.006000473 - maxProbs: 0.4498951
-Fri Nov 17 2017 08:53:36 PM - iter: 00006 (00s588ms, 16983.78 samples/s) - opt: 2.675727 - maxSd: 0.000613875 - maxProbs: 0.2249476
-Fri Nov 17 2017 08:53:37 PM - iter: 00007 (00s731ms, 13663.57 samples/s) - opt: 2.675727 - maxSd: 7.4365e-05 - maxProbs: 0.1124738
-Fri Nov 17 2017 08:53:37 PM - iter: 00008 (00s587ms, 17017.11 samples/s) - opt: 2.675727 - maxSd: 4.23201e-06 - maxProbs: 0.05623689
-Fri Nov 17 2017 08:53:38 PM - iter: 00009 (00s616ms, 16231.28 samples/s) - opt: 2.675727 - maxSd: 4.225456e-07 - maxProbs: 0.02811845
-Fri Nov 17 2017 08:53:39 PM - iter: 00010 (00s733ms, 13628.64 samples/s) - opt: 2.675727 - maxSd: 3.376241e-08 - maxProbs: 0.01405922
-Fri Nov 17 2017 08:53:39 PM - iter: 00011 (00s574ms, 17392.88 samples/s) - opt: 2.675727 - maxSd: 7.751173e-09 - maxProbs: 0.007029611
-Fri Nov 17 2017 08:53:40 PM - iter: 00012 (00s619ms, 16153.81 samples/s) - opt: 2.675727 - maxSd: 2.775761e-09 - maxProbs: 0.003514806
-Fri Nov 17 2017 08:53:41 PM - iter: 00013 (00s637ms, 15686.03 samples/s) - opt: 2.675727 - maxSd: 1.736754e-09 - maxProbs: 0.001757403
-Fri Nov 17 2017 08:53:41 PM - iter: 00014 (00s650ms, 15375.06 samples/s) - opt: 2.675727 - maxSd: 1.219703e-09 - maxProbs: 0.0008787014
+Sat Dec 23 2017 02:37:45 PM - iter: 00001 (00s578ms, 17290.24 samples/s) - opt: 3.009517 - maxSd: 0.3248419 - maxProbs: 0.9483221
+Sat Dec 23 2017 02:37:46 PM - iter: 00002 (00s605ms, 16510.56 samples/s) - opt: 2.70702 - maxSd: 0.07449603 - maxProbs: 0.7741611
+Sat Dec 23 2017 02:37:47 PM - iter: 00003 (00s644ms, 15522.24 samples/s) - opt: 2.688896 - maxSd: 0.04549593 - maxProbs: 0.7495805
+Sat Dec 23 2017 02:37:47 PM - iter: 00004 (00s559ms, 17870.68 samples/s) - opt: 2.677602 - maxSd: 0.03024808 - maxProbs: 0.6247903
+Sat Dec 23 2017 02:37:48 PM - iter: 00005 (00s564ms, 17700.87 samples/s) - opt: 2.675769 - maxSd: 0.006000473 - maxProbs: 0.4498951
+Sat Dec 23 2017 02:37:49 PM - iter: 00006 (00s611ms, 16348.60 samples/s) - opt: 2.675727 - maxSd: 0.000613875 - maxProbs: 0.2249476
+Sat Dec 23 2017 02:37:49 PM - iter: 00007 (00s651ms, 15338.11 samples/s) - opt: 2.675727 - maxSd: 7.4365e-05 - maxProbs: 0.1124738
+Sat Dec 23 2017 02:37:50 PM - iter: 00008 (00s660ms, 15143.02 samples/s) - opt: 2.675727 - maxSd: 4.23201e-06 - maxProbs: 0.05623689
+Sat Dec 23 2017 02:37:51 PM - iter: 00009 (00s575ms, 17381.87 samples/s) - opt: 2.675727 - maxSd: 4.225456e-07 - maxProbs: 0.02811845
+Sat Dec 23 2017 02:37:51 PM - iter: 00010 (00s572ms, 17476.10 samples/s) - opt: 2.675727 - maxSd: 3.376241e-08 - maxProbs: 0.01405922
+Sat Dec 23 2017 02:37:52 PM - iter: 00011 (00s654ms, 15274.31 samples/s) - opt: 2.675727 - maxSd: 7.751173e-09 - maxProbs: 0.007029611
+Sat Dec 23 2017 02:37:53 PM - iter: 00012 (00s644ms, 15524.89 samples/s) - opt: 2.675727 - maxSd: 2.775761e-09 - maxProbs: 0.003514806
+Sat Dec 23 2017 02:37:53 PM - iter: 00013 (00s669ms, 14946.07 samples/s) - opt: 2.675727 - maxSd: 1.736754e-09 - maxProbs: 0.001757403
+Sat Dec 23 2017 02:37:54 PM - iter: 00014 (00s732ms, 13657.75 samples/s) - opt: 2.675727 - maxSd: 1.219703e-09 - maxProbs: 0.0008787014
    user  system elapsed 
-   8.99    0.02    9.02 
+   9.09    0.00    9.09 
 > 
 > cl <- makeCluster(2)
 > system.time({
@@ -417,22 +419,22 @@ conVec=
 [1] 1 1 1 1 1 1
 smoothMean: 1 smoothSd: 1 smoothProb: 0.5 
 N: 10000 rho: 0.001 iterThr: 10000 sdThr: 0.001 probThr 0.001 
-Fri Nov 17 2017 08:53:45 PM - iter: 00001 (03s141ms, 3183.35 samples/s, 1591.68 s/s/thread) - opt: 3.009517 - maxSd: 0.3248419 - maxProbs: 0.9483221
-Fri Nov 17 2017 08:53:47 PM - iter: 00002 (02s041ms, 4898.33 samples/s, 2449.16 s/s/thread) - opt: 2.70702 - maxSd: 0.07449603 - maxProbs: 0.7741611
-Fri Nov 17 2017 08:53:49 PM - iter: 00003 (01s958ms, 5106.20 samples/s, 2553.10 s/s/thread) - opt: 2.688896 - maxSd: 0.04549593 - maxProbs: 0.7495805
-Fri Nov 17 2017 08:53:51 PM - iter: 00004 (01s922ms, 5200.34 samples/s, 2600.17 s/s/thread) - opt: 2.677602 - maxSd: 0.03024808 - maxProbs: 0.6247903
-Fri Nov 17 2017 08:53:52 PM - iter: 00005 (01s078ms, 9269.77 samples/s, 4634.88 s/s/thread) - opt: 2.675769 - maxSd: 0.006000473 - maxProbs: 0.4498951
-Fri Nov 17 2017 08:53:54 PM - iter: 00006 (02s038ms, 4904.83 samples/s, 2452.42 s/s/thread) - opt: 2.675727 - maxSd: 0.000613875 - maxProbs: 0.2249476
-Fri Nov 17 2017 08:53:56 PM - iter: 00007 (01s967ms, 5083.00 samples/s, 2541.50 s/s/thread) - opt: 2.675727 - maxSd: 7.4365e-05 - maxProbs: 0.1124738
-Fri Nov 17 2017 08:53:58 PM - iter: 00008 (01s132ms, 8831.01 samples/s, 4415.51 s/s/thread) - opt: 2.675727 - maxSd: 4.23201e-06 - maxProbs: 0.05623689
-Fri Nov 17 2017 08:53:59 PM - iter: 00009 (02s079ms, 4809.46 samples/s, 2404.73 s/s/thread) - opt: 2.675727 - maxSd: 4.225456e-07 - maxProbs: 0.02811845
-Fri Nov 17 2017 08:54:01 PM - iter: 00010 (01s980ms, 5048.15 samples/s, 2524.08 s/s/thread) - opt: 2.675727 - maxSd: 3.376241e-08 - maxProbs: 0.01405922
-Fri Nov 17 2017 08:54:03 PM - iter: 00011 (00s996ms, 10033.53 samples/s, 5016.77 s/s/thread) - opt: 2.675727 - maxSd: 7.751173e-09 - maxProbs: 0.007029611
-Fri Nov 17 2017 08:54:04 PM - iter: 00012 (01s988ms, 5029.29 samples/s, 2514.64 s/s/thread) - opt: 2.675727 - maxSd: 2.775761e-09 - maxProbs: 0.003514806
-Fri Nov 17 2017 08:54:06 PM - iter: 00013 (02s246ms, 4451.55 samples/s, 2225.78 s/s/thread) - opt: 2.675727 - maxSd: 1.736754e-09 - maxProbs: 0.001757403
-Fri Nov 17 2017 08:54:08 PM - iter: 00014 (01s114ms, 8973.21 samples/s, 4486.60 s/s/thread) - opt: 2.675727 - maxSd: 1.219703e-09 - maxProbs: 0.0008787014
+Sat Dec 23 2017 02:37:57 PM - iter: 00001 (02s695ms, 3710.54 samples/s, 1855.27 s/s/thread) - opt: 3.009517 - maxSd: 0.3248419 - maxProbs: 0.9483221
+Sat Dec 23 2017 02:37:59 PM - iter: 00002 (01s692ms, 5907.40 samples/s, 2953.70 s/s/thread) - opt: 2.70702 - maxSd: 0.07449603 - maxProbs: 0.7741611
+Sat Dec 23 2017 02:38:01 PM - iter: 00003 (02s838ms, 3522.83 samples/s, 1761.42 s/s/thread) - opt: 2.688896 - maxSd: 0.04549593 - maxProbs: 0.7495805
+Sat Dec 23 2017 02:38:04 PM - iter: 00004 (01s740ms, 5745.79 samples/s, 2872.89 s/s/thread) - opt: 2.677602 - maxSd: 0.03024808 - maxProbs: 0.6247903
+Sat Dec 23 2017 02:38:06 PM - iter: 00005 (02s531ms, 3950.54 samples/s, 1975.27 s/s/thread) - opt: 2.675769 - maxSd: 0.006000473 - maxProbs: 0.4498951
+Sat Dec 23 2017 02:38:08 PM - iter: 00006 (02s708ms, 3691.60 samples/s, 1845.80 s/s/thread) - opt: 2.675727 - maxSd: 0.000613875 - maxProbs: 0.2249476
+Sat Dec 23 2017 02:38:10 PM - iter: 00007 (01s610ms, 6210.28 samples/s, 3105.14 s/s/thread) - opt: 2.675727 - maxSd: 7.4365e-05 - maxProbs: 0.1124738
+Sat Dec 23 2017 02:38:13 PM - iter: 00008 (02s847ms, 3511.41 samples/s, 1755.71 s/s/thread) - opt: 2.675727 - maxSd: 4.23201e-06 - maxProbs: 0.05623689
+Sat Dec 23 2017 02:38:15 PM - iter: 00009 (01s692ms, 5908.85 samples/s, 2954.42 s/s/thread) - opt: 2.675727 - maxSd: 4.225456e-07 - maxProbs: 0.02811845
+Sat Dec 23 2017 02:38:18 PM - iter: 00010 (02s934ms, 3407.62 samples/s, 1703.81 s/s/thread) - opt: 2.675727 - maxSd: 3.376241e-08 - maxProbs: 0.01405922
+Sat Dec 23 2017 02:38:20 PM - iter: 00011 (02s522ms, 3965.07 samples/s, 1982.53 s/s/thread) - opt: 2.675727 - maxSd: 7.751173e-09 - maxProbs: 0.007029611
+Sat Dec 23 2017 02:38:22 PM - iter: 00012 (01s564ms, 6390.96 samples/s, 3195.48 s/s/thread) - opt: 2.675727 - maxSd: 2.775761e-09 - maxProbs: 0.003514806
+Sat Dec 23 2017 02:38:24 PM - iter: 00013 (02s707ms, 3693.70 samples/s, 1846.85 s/s/thread) - opt: 2.675727 - maxSd: 1.736754e-09 - maxProbs: 0.001757403
+Sat Dec 23 2017 02:38:26 PM - iter: 00014 (01s462ms, 6838.37 samples/s, 3419.18 s/s/thread) - opt: 2.675727 - maxSd: 1.219703e-09 - maxProbs: 0.0008787014
    user  system elapsed 
-  14.30    4.60   26.47 
+  20.54    5.69   32.11 
 > stopCluster(cl)
 > closeAllConnections()
 > 

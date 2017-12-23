@@ -174,8 +174,6 @@ CEoptim <- function(f,
     }
     
     q <- length(categories)
-    tau0 <- list()
-    
     tau0 <- lapply(categories, function(c) {rep(1.0 / c, c)})
     
   }
@@ -243,14 +241,10 @@ CEoptim <- function(f,
     Xc <- rtmvnorm(N, mu0, Sigma0, A, b)$X #QB Sigma0 Variance
   }
   
-  Xd <- matrix(nrow = N, ncol = q)
-  
   if (q > 0) {
-    
-    for (i in 1:q) {
-      Xd[, i] <- sample(0:(categories[i] - 1), N, replace = TRUE, prob = tau0[[i]])
-    }
-    
+    Xd <- sapply(1:q, function(i) {sample(0:(categories[i] - 1), N, replace = TRUE, prob = tau0[[i]])})
+  } else {
+    Xd <- matrix(nrow = N, ncol = q)
   }
   
   
@@ -375,9 +369,8 @@ CEoptim <- function(f,
     
     if (q > 0) {
       ## Sample categorical distributions.
-      ## tjb should use some sort of "apply" instead of for loop.
-      for (i in 1:q) {
-        Xd[, i] <- sample(0:(categories[i] - 1), N, replace = TRUE, prob = tau[[i]])
+      if (q > 0) {
+        Xd <- sapply(1:q, function(i) {sample(0:(categories[i] - 1), N, replace = TRUE, prob = tau[[i]])})
       }
     }
     
@@ -437,13 +430,11 @@ CEoptim <- function(f,
       ## Reestimate multivariate categorical distribution with smoothing.
       tau0 <- tau
       counts <- lapply(split(Xd[elite, , drop = FALSE], col(Xd[elite, , drop = FALSE])), table)
-      tau <- list()
-      
-      for (i in 1:q) {
+      tau <- lapply(1:q, function(i) {
         v <- rep(0, categories[i])
         v[1 + as.numeric(dimnames(counts[[i]])[[1]])] <- as.vector(counts[[i]])
-        tau[[i]] <- v / nElite
-      }
+        v / nElite
+      })
       
       ## Combine tau and tau0.
       tau <- mapply("+", lapply(tau, "*", gamma), lapply(tau0, "*", 1 - gamma), SIMPLIFY = FALSE)

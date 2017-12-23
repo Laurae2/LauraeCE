@@ -176,9 +176,7 @@ CEoptim <- function(f,
     q <- length(categories)
     tau0 <- list()
     
-    for (c in categories) {
-      tau0 <- c(tau0, list(rep(1.0 / c, c)))
-    }
+    tau0 <- lapply(categories, function(c) {rep(1.0 / c, c)})
     
   }
   
@@ -250,7 +248,7 @@ CEoptim <- function(f,
   if (q > 0) {
     
     for (i in 1:q) {
-      Xd[, i] <- sample(0:(categories[i] - 1), N, replace = T, prob = tau0[[i]])
+      Xd[, i] <- sample(0:(categories[i] - 1), N, replace = TRUE, prob = tau0[[i]])
     }
     
   }
